@@ -1,0 +1,15 @@
+#!/command/with-contenv bash
+
+SSH_PASSWORD_FILE="/etc/ssh/ssh_password"
+
+if [ ! -f $SSH_PASSWORD_FILE ]; then
+    echo "Setting SSH password for jovyan..."
+    PASSWORD=$(pwgen -s 16 1)
+    echo "jovyan:$PASSWORD" | chpasswd
+    mkdir -p /etc/ssh
+    echo "$PASSWORD" >> "$SSH_PASSWORD_FILE"
+    chmod 600 "$SSH_PASSWORD_FILE"
+    chown root:root "$SSH_PASSWORD_FILE"
+fi
+
+service ssh restart
