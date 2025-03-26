@@ -5,6 +5,6 @@ images=(
 )
 
 for image in "${images[@]}"; do
-    docker build --build-arg BASE_IMG=docker.io/kubeflownotebookswg/$image:v1.9.2 --tag "docker.io/lion0738/$image-ssh" -f Dockerfile .
-    docker push "docker.io/lion0738/$image-ssh"
+    docker build --build-arg BASE_IMG=ghcr.io/kubeflow/kubeflow/notebook-servers/$image:v1.10.0 --tag "docker.io/lion0738/$image-ssh:v1.10.0" -f Dockerfile .
+    docker push "docker.io/lion0738/$image-ssh:v1.10.0"
 done
