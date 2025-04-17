@@ -5,7 +5,6 @@ USER root
 RUN apt-get -yq update \
  && apt-get -yq install --no-install-recommends \
     openssh-server \
-    pwgen \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
