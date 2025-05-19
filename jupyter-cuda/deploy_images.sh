@@ -4,8 +4,7 @@
 #jupyter-tensorflow-cuda-full, jupyter-tensorflow-full
 #jupyter-scipy, jupyter
 images=(
-    "jupyter-tensorflow-cuda-full"
-    "jupyter-scipy"
+    "jupyter-pytorch-cuda-full"
 )
 
 for image in "${images[@]}"; do
