@@ -7,7 +7,7 @@ images=(
 for image in "${images[@]}"; do
     buildah bud \
         --build-arg BASE_IMG=ghcr.io/kubeflow/kubeflow/notebook-servers/${image}:v1.10.0 \
-        --tag ghcr.io/lion0738/${image}-ssh:v1.10.0 \
+        --tag knu-kubeflow.duckdns.org:30500/${image}-ssh:v1.10.0 \
         -f Dockerfile .
-    buildah push ghcr.io/lion0738/${image}-ssh:v1.10.0
+    buildah push knu-kubeflow.duckdns.org:30500/${image}-ssh:v1.10.0
 done
