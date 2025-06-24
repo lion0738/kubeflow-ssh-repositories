@@ -15,4 +15,7 @@ RUN apt-get -yq update \
 
 RUN pip install --upgrade numpy transformers accelerate deepspeed minio s3fs --no-cache-dir
 
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENV PATH=/usr/local/cuda/bin:$PATH
+
 COPY --chown=${NB_USER}:${NB_GID} --chmod=755 s6/ /etc
