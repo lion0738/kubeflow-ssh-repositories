@@ -13,7 +13,7 @@ RUN apt-get -yq update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade numpy transformers accelerate deepspeed minio s3fs --no-cache-dir
+RUN pip install --upgrade numpy transformers accelerate deepspeed minio s3fs datasets evaluate trl diffusers hub peft --no-cache-dir
 
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ENV PATH=/usr/local/cuda/bin:$PATH
