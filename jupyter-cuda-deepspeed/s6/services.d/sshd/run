@@ -1,0 +1,41 @@
+#!/command/with-contenv bash
+
+USER_HOME="${HOME}"
+SSH_DIR="$USER_HOME/.ssh"
+KEY_PATH="$SSH_DIR/id_rsa"
+AUTHORIZED_KEYS="$SSH_DIR/authorized_keys"
+
+# .ssh 디렉토리 생성 및 권한 설정
+mkdir -p "$SSH_DIR"
+chmod 775 "$USER_HOME"
+chown "${NB_USER}:users" "$USER_HOME"
+chmod 700 "$SSH_DIR"
+chown "${NB_USER}:${NB_GID}" "$SSH_DIR"
+
+# SSH 키 생성
+if [ ! -f "$KEY_PATH" ]; then
+    echo "SSH 키 생성 중..."
+    ssh-keygen -t rsa -b 4096 -f "$KEY_PATH" -N ""
+    chown "${NB_USER}:${NB_GID}" "$KEY_PATH" "$KEY_PATH.pub"
+else
+    echo "SSH 키가 이미 존재합니다: $KEY_PATH"
+fi
+
+# 공개 키 authorized_keys에 등록
+if [ -f "$KEY_PATH.pub" ]; then
+    PUB_KEY=$(cat "$KEY_PATH.pub")
+    touch "$AUTHORIZED_KEYS"
+    chmod 600 "$AUTHORIZED_KEYS"
+    chown "${NB_USER}:${NB_GID}" "$AUTHORIZED_KEYS"
+    if ! grep -q "$PUB_KEY" "$AUTHORIZED_KEYS"; then
+        echo "공개 키를 authorized_keys에 추가 중..."
+        echo "$PUB_KEY" >> "$AUTHORIZED_KEYS"
+    else
+        echo "공개 키가 이미 authorized_keys에 있습니다."
+    fi
+else
+    echo "공개 키가 존재하지 않습니다."
+fi
+
+service ssh restart
+tail -f /dev/null
